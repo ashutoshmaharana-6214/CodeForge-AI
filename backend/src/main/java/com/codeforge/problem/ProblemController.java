@@ -14,7 +14,24 @@ import org.springframework.http.HttpStatus;
 @CrossOrigin(origins = "http://localhost:5173")
 public class ProblemController {
     public record Problem(Long id, String title, String difficulty, List<String> topics,
-                          String description, String examples) {}
+                          String description, String examples) {
+        public String sampleInput() {
+            return switch (id.intValue()) {
+                case 1 -> "4\n2 7 11 15\n9\n";
+                case 2 -> "([])\n";
+                case 3 -> "9\n-2 1 -3 4 -1 2 1 -5 4\n";
+                default -> throw new IllegalStateException("No example fixture");
+            };
+        }
+        public String sampleOutput() {
+            return switch (id.intValue()) {
+                case 1 -> "0 1\n";
+                case 2 -> "true\n";
+                case 3 -> "6\n";
+                default -> throw new IllegalStateException("No example fixture");
+            };
+        }
+    }
 
     private static final List<Problem> PROBLEMS = List.of(
         new Problem(1L, "Two Sum", "Easy", List.of("Arrays", "Hashing"),
